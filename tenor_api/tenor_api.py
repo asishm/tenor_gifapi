@@ -4,9 +4,9 @@ Tenor GIF API Python Wrapper
 
 import urllib.parse
 import requests
-from settings import API_KEY
-from static import *
-import objects
+from .settings import API_KEY
+from .static import *
+from .objects import Response
 
 def _parse_code(item, codemap, default=None):
     try:
@@ -134,5 +134,5 @@ if __name__ == "__main__":
     from pprint import pprint
     trending = get_trending(2)
     pprint(trending)
-    trending = objects.Response(**trending)
+    trending = Response(**trending)
     
