@@ -61,14 +61,16 @@ def gif_search(tag,
     """
 
     safesearch = safesearch.lower()
-    country = country.upper().strip()
+    
+    if country:
+        country = country.upper().strip()
+        if country not in COUNTRY_CODES:
+            country = parse_code(country, COUNTRY_CODEMAP)
+
     if safesearch not in ('off', 'moderate', 'strict'):
         safesearch = 'off'
 
     tag = urllib.parse.quote(tag, safe='/:)({}')
-
-    if country not in COUNTRY_CODES:
-        country = parse_code(country, COUNTRY_CODEMAP)
 
     locale = parse_locale(locale)
 
