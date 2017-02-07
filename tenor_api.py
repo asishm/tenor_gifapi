@@ -7,7 +7,7 @@ import requests
 from settings import API_KEY
 from static import *
 
-def parse_code(item, codemap, default=None):
+def _parse_code(item, codemap, default=None):
     try:
         return codemap[item]
     except KeyError:
@@ -16,7 +16,7 @@ def parse_code(item, codemap, default=None):
                 return codemap[item]
     return default
 
-def parse_locale(locale):
+def _parse_locale(locale):
     try:
         lang, country = locale.split('_')
     except ValueError:
@@ -24,9 +24,9 @@ def parse_locale(locale):
         country = ''
 
     if lang not in LANGUAGE_CODES:
-        lang = parse_code(lang, LANGUAGE_CODEMAP, 'en')
+        lang = _parse_code(lang, LANGUAGE_CODEMAP, 'en')
     if country:
-        country = parse_code(country, COUNTRY_CODEMAP, 'US')
+        country = _parse_code(country, COUNTRY_CODEMAP, 'US')
         return '_'.join([lang, country])
     return lang
 
@@ -61,18 +61,18 @@ def gif_search(tag,
     """
 
     safesearch = safesearch.lower()
-    
+
     if country:
         country = country.upper().strip()
         if country not in COUNTRY_CODES:
-            country = parse_code(country, COUNTRY_CODEMAP)
+            country = _parse_code(country, COUNTRY_CODEMAP)
 
     if safesearch not in ('off', 'moderate', 'strict'):
         safesearch = 'off'
 
     tag = urllib.parse.quote(tag, safe='/:)({}')
 
-    locale = parse_locale(locale)
+    locale = _parse_locale(locale)
 
     limit = max(1, min(limit, 50))
 
