@@ -9,6 +9,7 @@ Create a copy of `example_settings.py` and edit it with your API key. Rename the
 
 ## Usage
 
+```python
     >>> import tenor_api
     >>> from pprint import pprint
     >>> pprint(tenor_api.get_trending(limit=1))
@@ -48,3 +49,4 @@ Create a copy of `example_settings.py` and edit it with your API key. Rename the
                 'title': '20/20/20/20',
                 'url': 'https://tenor.co/p4cm.gif'}],
     'weburl': 'https://www.tenor.co/search/hola%20:)-gifs'}
+```
