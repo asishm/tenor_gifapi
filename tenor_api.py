@@ -30,8 +30,8 @@ def _parse_locale(locale):
         return '_'.join([lang, country])
     return lang
 
-def _make_request(method, params=None):
-    if params is None:
+def _make_request(method, **params):
+    if not params:
         params = {}
     base_url = 'https://api.tenor.co/v1/{}'.format(method)
     params['key'] = API_KEY
@@ -42,12 +42,7 @@ def _make_request(method, params=None):
     return req.json()
 
 
-def gif_search(tag,
-               country=None,
-               limit=20,
-               locale='en_US',
-               pos=None,
-               safesearch='off'):
+def gif_search(tag, country=None, limit=20, locale='en_US', pos=None, safesearch='off'):
 
     """
     search for gifs by tags
@@ -82,17 +77,9 @@ def gif_search(tag,
         safesearch = 'off'
 
     tag = urllib.parse.quote(tag, safe='/:)({}')
-
     locale = _parse_locale(locale)
-
     limit = max(1, min(limit, 50))
-    params = {'tag': tag,
-              'country': country,
-              'limit': limit,
-              'locale': locale,
-              'pos': pos,
-              'safesearch': safesearch}
-    return _make_request('search', params=params)
+    return _make_request('search', **locals())
 
 def get_tags(type_='featured'):
     """
@@ -110,7 +97,7 @@ def get_tags(type_='featured'):
 
     params = {'type': type_,}
 
-    return _make_request('tags', params=params)
+    return _make_request('tags', **params)
 
 def get_trending(limit=20, pos=None):
     """
@@ -118,10 +105,8 @@ def get_trending(limit=20, pos=None):
     """
 
     limit = max(1, min(50, limit))
-    params = {'limit': limit,
-              'pos': pos}
 
-    return _make_request('trending', params=params)
+    return _make_request('trending', **locals())
 
 def get_video(limit=20, pos=None):
     """
@@ -129,10 +114,8 @@ def get_video(limit=20, pos=None):
     """
 
     limit = max(1, min(50, limit))
-    params = {'limit': limit,
-              'pos': pos}
 
-    return _make_request('music', params=params)
+    return _make_request('music', **locals())
 
 def get_gifs(ids):
     """
@@ -144,6 +127,4 @@ def get_gifs(ids):
     eg: "5079878,4900007"
     """
 
-    params = {'ids': ids}
-
-    return _make_request('gifs', params=params)
+    return _make_request('gifs', **locals())
