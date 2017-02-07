@@ -30,6 +30,17 @@ def _parse_locale(locale):
         return '_'.join([lang, country])
     return lang
 
+def _make_request(method, params=None):
+    if params is None:
+        params = {}
+    base_url = 'https://api.tenor.co/v1/{}'.format(method)
+    params['key'] = API_KEY
+
+    req = requests.get(base_url, params=params)
+    req.raise_for_status()
+
+    return req.json()
+
 
 def gif_search(tag,
                country=None,
@@ -75,20 +86,14 @@ def gif_search(tag,
     locale = _parse_locale(locale)
 
     limit = max(1, min(limit, 50))
-
-    base_url = 'https://api.tenor.co/v1/search'
     params = {'tag': tag,
-              'key': API_KEY,
               'country': country,
               'limit': limit,
               'locale': locale,
               'pos': pos,
               'safesearch': safesearch}
-    req = requests.get(base_url, params=params)
-    req.raise_for_status()
+    return _make_request('search', params=params)
 
-    return req.json()
-    
 def get_tags(type_='featured'):
     """
     Get a list of popular or promoted tags and categories.
@@ -100,50 +105,34 @@ def get_tags(type_='featured'):
           Possible values: "featured", "explore".
           Multiple types can be specified, each type separated with a comma
     """
-
-    base_url = 'https://api.tenor.co/v1/tags'
-
     type_ = set(type_.lower().strip().split(','))
     type_ = ','.join([item for item in type_ if item in ('featured', 'explore')])
 
-    params = {'type': type_,
-              'key': API_KEY}
+    params = {'type': type_,}
 
-    req = requests.get(base_url, params=params)
-    req.raise_for_status()
-
-    return req.json()
+    return _make_request('tags', params=params)
 
 def get_trending(limit=20, pos=None):
     """
     Get trending, popular, and promoted GIFs and Videos.
     """
 
-    base_url = 'https://api.tenor.co/v1/trending'
     limit = max(1, min(50, limit))
-    params = {'key': API_KEY,
-              'limit': limit,
+    params = {'limit': limit,
               'pos': pos}
 
-    req = requests.get(base_url, params=params)
-    req.raise_for_status()
-
-    return req.json()
+    return _make_request('trending', params=params)
 
 def get_video(limit=20, pos=None):
     """
     Get popular video clips
     """
-    base_url = 'https://api.tenor.co/v1/music'
+
     limit = max(1, min(50, limit))
-    params = {'key': API_KEY,
-              'limit': limit,
+    params = {'limit': limit,
               'pos': pos}
 
-    req = requests.get(base_url, params=params)
-    req.raise_for_status()
-
-    return req.json()
+    return _make_request('music', params=params)
 
 def get_gifs(ids):
     """
@@ -155,11 +144,6 @@ def get_gifs(ids):
     eg: "5079878,4900007"
     """
 
-    base_url = 'https://api.tenor.co/v1/gifs'
-    params = {'key': API_KEY,
-              'ids': ids}
-    
-    req = requests.get(base_url, params=params)
-    req.raise_for_status()
+    params = {'ids': ids}
 
-    return req.json()
+    return _make_request('gifs', params=params)
