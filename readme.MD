@@ -1,5 +1,4 @@
 # Tenor GIF API
--------
 
 A Python Wrapper for the Tenor GIF API.
 
@@ -43,7 +42,7 @@ Create a copy of `example_settings.py` and edit it with your API key. Rename the
                 .
                 .
                 .
-                
+
                 'shares': 910,
                 'tags': [],
                 'title': '20/20/20/20',
