@@ -6,6 +6,7 @@ import urllib.parse
 import requests
 from settings import API_KEY
 from static import *
+import objects
 
 def _parse_code(item, codemap, default=None):
     try:
@@ -128,3 +129,10 @@ def get_gifs_by_id(ids):
     """
 
     return _make_request('gifs', **locals())
+
+if __name__ == "__main__":
+    from pprint import pprint
+    trending = get_trending(2)
+    pprint(trending)
+    trending = objects.Response(**trending)
+    
