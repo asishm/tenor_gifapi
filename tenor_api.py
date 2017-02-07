@@ -81,7 +81,7 @@ def gif_search(tag, country=None, limit=20, locale='en_US', pos=None, safesearch
     limit = max(1, min(limit, 50))
     return _make_request('search', **locals())
 
-def get_tags(type_='featured'):
+def get_featured_by_tags(type_='featured'):
     """
     Get a list of popular or promoted tags and categories.
 
@@ -108,7 +108,7 @@ def get_trending(limit=20, pos=None):
 
     return _make_request('trending', **locals())
 
-def get_video(limit=20, pos=None):
+def get_popular_videos(limit=20, pos=None):
     """
     Get popular video clips
     """
@@ -117,7 +117,7 @@ def get_video(limit=20, pos=None):
 
     return _make_request('music', **locals())
 
-def get_gifs(ids):
+def get_gifs_by_id(ids):
     """
     Get GIFs by their IDs.
 
