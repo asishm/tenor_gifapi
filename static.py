@@ -152,7 +152,7 @@ COUNTRY_CODEMAP = {
     'morocco': 'MA',
     'mozambique': 'MZ',
     'myanmar': 'MM',
-    'namibia': nan,
+    'namibia': 'NA',
     'nauru': 'NR',
     'nepal': 'NP',
     'netherlands': 'NL',
